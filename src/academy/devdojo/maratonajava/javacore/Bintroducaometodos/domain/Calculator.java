@@ -16,4 +16,19 @@ public class Calculator {
     public double divide(double num, double num2) {
         return num / num2;
     }
+
+    public double divideV2(double num, double num2) {
+        if (num2 != 0) {
+            return num / num2;
+        }
+        return 0;
+    }
+
+    public void divideV3(double num, double num2) {
+        if (num2 == 0) {
+            System.out.println("Não existe divisão por zero");
+            return;
+        }
+        System.out.println(num / num2);
+    }
 }
