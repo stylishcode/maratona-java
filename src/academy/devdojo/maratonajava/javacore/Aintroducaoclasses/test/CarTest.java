@@ -14,6 +14,9 @@ public class CarTest {
         car2.model = "Ka";
         car2.year = 2013;
 
+//        change reference
+        car = car2;
+
         System.out.println(car.name);
         System.out.println(car.model);
         System.out.println(car.year);
