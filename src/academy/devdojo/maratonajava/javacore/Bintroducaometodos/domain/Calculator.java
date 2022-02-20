@@ -12,4 +12,8 @@ public class Calculator {
     public void multiply(int num, int num2) {
         System.out.println(num * num2);
     }
+
+    public double divide(double num, double num2) {
+        return num / num2;
+    }
 }
