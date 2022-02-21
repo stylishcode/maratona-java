@@ -31,4 +31,12 @@ public class Calculator {
         }
         System.out.println(num / num2);
     }
+
+    public void change(int numero, int numero2) {
+        numero = 99;
+        numero2 = 33;
+        System.out.println("Dentro do altera dois números");
+        System.out.println("Num: " + numero);
+        System.out.println("Num2: " + numero2);
+    }
 }
