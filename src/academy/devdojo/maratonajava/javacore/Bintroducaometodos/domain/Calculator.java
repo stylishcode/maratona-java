@@ -39,4 +39,20 @@ public class Calculator {
         System.out.println("Num: " + numero);
         System.out.println("Num2: " + numero2);
     }
+
+    public void sumAll(int[] numbers) {
+        int sum = 0;
+        for (int num : numbers) {
+            sum += num;
+        }
+        System.out.println(sum);
+    }
+
+    public void sumAllVarargs(int... numbers) {
+        int sum = 0;
+        for (int num : numbers) {
+            sum += num;
+        }
+        System.out.println(sum);
+    }
 }
