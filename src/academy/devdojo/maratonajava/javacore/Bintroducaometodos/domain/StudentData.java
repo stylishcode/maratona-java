@@ -6,5 +6,10 @@ public class StudentData {
         System.out.println("Name: " + student.name);
         System.out.println("Age: " + student.age);
         System.out.println("Gender: " + student.gender);
+        /*
+        Não faça isso, pois a alteração afeta permanentemente o objeto mesmo aṕos o término deste método
+        Este é o risco de trabalhar com passagem de parâmetro por referência
+        */
+        student.name = "Gohan";
     }
 }

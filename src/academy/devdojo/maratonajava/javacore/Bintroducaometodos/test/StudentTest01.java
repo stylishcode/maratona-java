@@ -19,5 +19,9 @@ public class StudentTest01 {
 
         studentData.show(student);
         studentData.show(student2);
+
+        System.out.println("###################");
+        studentData.show(student);
+        studentData.show(student2);
     }
 }
