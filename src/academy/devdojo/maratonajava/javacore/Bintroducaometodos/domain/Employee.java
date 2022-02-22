@@ -1,9 +1,10 @@
 package academy.devdojo.maratonajava.javacore.Bintroducaometodos.domain;
 
 public class Employee {
-    public String name;
-    public String age;
-    public double[] salaries;
+    private String name;
+    private String age;
+    private double[] salaries;
+    private double average;
 
     public void showSalaries() {
         if (salaries == null) {
@@ -19,7 +20,7 @@ public class Employee {
         if (salaries == null) {
             return;
         }
-        double sum = 0.0, average = 0.0;
+        double sum = 0.0;
         for (double salary : salaries) {
             sum += salary;
         }
@@ -35,5 +36,17 @@ public class Employee {
         }
         showSalaries();
         showSalaryAverage();
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public void setSalaries(double[] salaries) {
+        this.salaries = salaries;
     }
 }
