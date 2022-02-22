@@ -20,7 +20,7 @@ public class Anime {
         }
     }
     /*
-    * Esse construtor irá impedir a execução do construtor (já que não há sobrecarga de métodos)
+    * Esse construtor irá impedir a execução do construtor que inicializa os episódios (já que não há sobrecarga de métodos)
     * Fazendo com que os episódios não sejam inicializados
     * Seria necessário replicar o código de inicialização em todos os construtores criados
     * Para evitar isso, existem os blocos de inicialização
