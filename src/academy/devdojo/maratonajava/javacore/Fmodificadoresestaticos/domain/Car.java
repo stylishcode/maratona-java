@@ -4,7 +4,7 @@ public class Car {
     private String name;
     private double maxSpeed;
     //  Faz parte da classe e não das instâncias
-    public static double limitSpeed = 250;
+    private static double limitSpeed = 250;
 
     public Car(String name, double maxSpeed) {
         this.name = name;
@@ -32,5 +32,13 @@ public class Car {
 
     public void setMaxSpeed(double maxSpeed) {
         this.maxSpeed = maxSpeed;
+    }
+
+    public double getLimitSpeed() {
+        return Car.limitSpeed;
+    }
+
+    public static void setLimitSpeed(double limitSpeed) {
+        Car.limitSpeed = limitSpeed;
     }
 }
