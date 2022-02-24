@@ -2,12 +2,12 @@ package academy.devdojo.maratonajava.javacore.Gassociacao.domain;
 
 public class School {
     private String name;
-    private Teacher[] teachers;
+    private Professor[] teachers;
 
     public void print() {
         System.out.println(this.name);
         if (teachers == null) return;
-        for (Teacher teacher : teachers) {
+        for (Professor teacher : teachers) {
             System.out.println(teacher.getName());
         }
     }
@@ -16,7 +16,7 @@ public class School {
         this.name = name;
     }
 
-    public School(String name, Teacher[] teachers) {
+    public School(String name, Professor[] teachers) {
         this.name = name;
         this.teachers = teachers;
     }
@@ -29,11 +29,11 @@ public class School {
         this.name = name;
     }
 
-    public Teacher[] getTeachers() {
+    public Professor[] getTeachers() {
         return teachers;
     }
 
-    public void setTeachers(Teacher[] teachers) {
+    public void setTeachers(Professor[] teachers) {
         this.teachers = teachers;
     }
 }
