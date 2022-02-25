@@ -2,9 +2,9 @@ package academy.devdojo.maratonajava.javacore.Hheranca.domain;
 
 public class Person {
     // Libera acesso a todas as subclasses e classes no mesmo pacote
-    private String name;
-    private String cpf;
-    private Address address;
+    protected String name;
+    protected String cpf;
+    protected Address address;
 
     public void print() {
         System.out.println(name);

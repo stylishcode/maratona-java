@@ -22,5 +22,7 @@ public class AddressTest01 {
         employee.setSalary(4567.87);
         System.out.println("----------------");
         employee.print();
+
+        employee.paymentReport();
     }
 }
