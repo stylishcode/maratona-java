@@ -9,14 +9,12 @@ public class AddressTest01 {
         Address address = new Address();
         address.setStreet("Rua 3");
         address.setCep("012345-209");
-        Person person = new Person();
-        person.setName("Kamogawa");
+        Person person = new Person("Kamogawa");
         person.setCpf("012.345.678-90");
         person.setAddress(address);
         person.print();
 
-        Employee employee = new Employee();
-        employee.setName("Makunouchi Ippo");
+        Employee employee = new Employee("Makunouchi Ippo");
         employee.setCpf("067.123.546-76");
         employee.setAddress(address);
         employee.setSalary(4567.87);

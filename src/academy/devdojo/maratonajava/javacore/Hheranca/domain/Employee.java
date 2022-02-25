@@ -8,6 +8,10 @@ public class Employee extends Person {
         System.out.println(salary);
     }
 
+    public Employee(String name) {
+        super(name);
+    }
+
     public void paymentReport() {
         System.out.println("Eu, " + this.name + " recebi o salário de R$ " + this.salary);
     }

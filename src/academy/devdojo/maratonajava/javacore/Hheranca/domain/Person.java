@@ -6,6 +6,15 @@ public class Person {
     protected String cpf;
     protected Address address;
 
+    public Person(String name) {
+
+    }
+
+    public Person(String name, String cpf) {
+       this(name);
+       this.cpf = cpf;
+    }
+
     public void print() {
         System.out.println(name);
         System.out.println(cpf);
