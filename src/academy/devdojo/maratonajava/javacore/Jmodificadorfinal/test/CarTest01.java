@@ -6,5 +6,8 @@ public class CarTest01 {
     public static void main(String[] args) {
         Car car = new Car();
         System.out.println(Car.MAX_SPEED);
+        System.out.println(car.BUYER);
+        car.BUYER.setName("Kuririn");
+        System.out.println(car.BUYER);
     }
 }
