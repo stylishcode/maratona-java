@@ -6,20 +6,27 @@ public class Person {
     protected String cpf;
     protected Address address;
 
-    public Person(String name) {
-
+    static {
+        System.out.println("Dentro do bloco estático de person");
     }
 
-    public Person(String name, String cpf) {
-       this(name);
-       this.cpf = cpf;
+    {
+        System.out.println("Dentro do bloco de inicialização de person 1");
+    }
+
+    {
+        System.out.println("Dentro do bloco de inicialização de person 2");
+    }
+
+    public Person(String name) {
+        this.name = name;
+        System.out.println("Dentro do construtor de person");
     }
 
     public void print() {
         System.out.println(name);
         System.out.println(cpf);
-        System.out.println(address.getStreet());
-        System.out.println(address.getCep());
+        System.out.println(address.getStreet() + " " + address.getCep());
     }
 
     public String getName() {

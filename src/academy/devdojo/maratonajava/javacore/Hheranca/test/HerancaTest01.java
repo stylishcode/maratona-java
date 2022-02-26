@@ -4,7 +4,7 @@ import academy.devdojo.maratonajava.javacore.Hheranca.domain.Address;
 import academy.devdojo.maratonajava.javacore.Hheranca.domain.Employee;
 import academy.devdojo.maratonajava.javacore.Hheranca.domain.Person;
 
-public class AddressTest01 {
+public class HerancaTest01 {
     public static void main(String[] args) {
         Address address = new Address();
         address.setStreet("Rua 3");

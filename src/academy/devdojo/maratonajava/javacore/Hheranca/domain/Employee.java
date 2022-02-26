@@ -3,6 +3,18 @@ package academy.devdojo.maratonajava.javacore.Hheranca.domain;
 public class Employee extends Person {
     private double salary;
 
+    static {
+        System.out.println("Dentro do bloco estático de Employee");
+    }
+
+    {
+        System.out.println("Dentro do bloco de inicialização de Employee 1");
+    }
+
+    {
+        System.out.println("Dentro do bloco de inicialização de Employee 2");
+    }
+
     public void print() {
         super.print();
         System.out.println(salary);
@@ -10,6 +22,7 @@ public class Employee extends Person {
 
     public Employee(String name) {
         super(name);
+        System.out.println("Dentro do construtor de employee");
     }
 
     public void paymentReport() {
