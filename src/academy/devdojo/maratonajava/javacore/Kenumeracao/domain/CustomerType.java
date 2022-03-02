@@ -1,6 +1,6 @@
 package academy.devdojo.maratonajava.javacore.Kenumeracao.domain;
 
-public enum ClientType {
+public enum CustomerType {
     /*
     * Quando você está criando uma enumeração, basicamente você está chamando um construtor, privado
     * Se você ir no arquivo decompilado de uma enum, irá ver ele
@@ -16,11 +16,25 @@ public enum ClientType {
     PESSOA_JURIDICA(2, "Pessoa Jurídica");
 
     public final int VALUE;
-    public final String REPORTNAME;
+    public final String REPORTVALUE;
 
-    ClientType(int value, String reportName) {
+    CustomerType(int value, String reportValue) {
         this.VALUE = value;
-        this.REPORTNAME = reportName;
+        this.REPORTVALUE = reportValue;
+    }
+
+    /*
+    *Object.valueOf() retorna a enumeração baseada no nome como PESSOA_FISICA ou PESSOA_JURIDICA
+    * Se você quiser retornar uma enumeração baseada nos atributos como 1 ou "Pessoa Física", pode usar o método abaixo
+    * */
+    public static CustomerType getByReportValue(String reportValue) {
+        // values() retorna um array com todas as enumerações
+        for (CustomerType customerType : values()) {
+            if (reportValue.equals(customerType.REPORTVALUE)) {
+                return customerType;
+            }
+        }
+        return null;
     }
 
     // Você não vai querer setters porque o valor deve ser imutável
