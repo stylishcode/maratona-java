@@ -6,6 +6,11 @@ public class Manager extends Employee {
     }
 
     @Override
+    public void calculateBonus() {
+        this.salary += this.salary * 0.2;
+    }
+
+    @Override
     public String toString() {
         return "Manager: { " +
                 "name='" + name + '\'' + "" +
