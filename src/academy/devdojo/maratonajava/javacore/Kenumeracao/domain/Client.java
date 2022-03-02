@@ -2,9 +2,7 @@ package academy.devdojo.maratonajava.javacore.Kenumeracao.domain;
 
 public class Client {
     // apesar de não ser tão organizado, é possível criar enumerações dentro de classes
-    public enum PaymentType {
-        DEBITO, CREDITO
-    }
+
     private String name;
     private ClientType clientType;
     /*
