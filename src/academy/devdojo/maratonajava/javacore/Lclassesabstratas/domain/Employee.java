@@ -1,6 +1,6 @@
 package academy.devdojo.maratonajava.javacore.Lclassesabstratas.domain;
 
-public abstract class Employee {
+public abstract class Employee extends Person {
     protected String name;
     protected double salary;
 
@@ -9,6 +9,12 @@ public abstract class Employee {
         this.salary = salary;
         calculateBonus();
     }
+
+    @Override
+    public void print() {
+        System.out.println("Printing...");
+    }
+
     /*
     * Métodos abstratos só podem existir dentro de classes abstratas
     * Métodos concretos (com corpo e implementação) podem existir tanto em classes concretas quanto abstratas
