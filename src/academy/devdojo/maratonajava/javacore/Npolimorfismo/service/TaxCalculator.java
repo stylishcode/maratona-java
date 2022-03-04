@@ -1,6 +1,7 @@
 package academy.devdojo.maratonajava.javacore.Npolimorfismo.service;
 
 import academy.devdojo.maratonajava.javacore.Npolimorfismo.domain.Product;
+import academy.devdojo.maratonajava.javacore.Npolimorfismo.domain.Tomato;
 
 public class TaxCalculator {
     /*
@@ -14,5 +15,9 @@ public class TaxCalculator {
         System.out.println("Produto: " + product.getName());
         System.out.println("Valor: " + product.getValue());
         System.out.println("Imposto a ser pago: " + tax);
+        if (product instanceof Tomato) {
+            Tomato tomato = (Tomato) product;
+            System.out.println("Data de validade: " + tomato.getExpirationDate());
+        }
     }
 }
