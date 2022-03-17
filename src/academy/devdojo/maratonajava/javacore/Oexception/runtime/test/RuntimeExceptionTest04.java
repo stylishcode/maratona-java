@@ -6,25 +6,10 @@ import java.sql.SQLException;
 public class RuntimeExceptionTest04 {
     public static void main(String[] args) {
         try {
-//            throw new ArrayIndexOutOfBoundsException();
-//            throw new IndexOutOfBoundsException();
-//            throw new IllegalArgumentException();
-//            throw new ArithmeticException();
             throw new RuntimeException();
-        } /*catch (RuntimeException e) {
-             * Exceções mais genéricas sempre devem vir por último, pois
-             * como as outras herdam da genérica, ela acaba inutilizando
-             * as outras (unreachable code)
-             *//*
-            System.out.println("Dentro do RuntimeException");
-        }*/ catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Dentro do ArrayIndexOutOfBoundsException");
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("Dentro do IndexOutOfBoundsException");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Dentro do IllegalArgumentException");
-        } catch (ArithmeticException e) {
-            System.out.println("Dentro do ArithmeticException");
+        // Sintaxe para pegar uma das exceções abaixo, em vez de usar vários catches
+        } catch (ArrayIndexOutOfBoundsException | IllegalArgumentException | ArithmeticException e) {
+            System.out.println("Dentro do ArrayIndexOutOfBoundsException | IllegalArgumentException | Arithmetic Exception");
         } catch (RuntimeException e) {
             System.out.println("Dentro do RuntimeException");
         }
@@ -34,6 +19,10 @@ public class RuntimeExceptionTest04 {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
+            /*
+             * Apesar de não ser tão utilizado, é possível reassociar outro
+             * objeto a "e" (apenas se tiver uma exceção) */
+//            e = new RuntimeException();
             e.printStackTrace();
         }
     }
