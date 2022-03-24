@@ -2,6 +2,7 @@ package academy.devdojo.maratonajava.javacore.Rdatas.test;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 public class PeriodTest01 {
     public static void main(String[] args) {
@@ -34,5 +35,9 @@ public class PeriodTest01 {
         System.out.println(p3.getMonths()); // 0 meses sendo que p3 contém 406D??? Problema da classe
         // Tentando obter os meses com um workaround
         System.out.println(Period.between(now, now.plusDays(p3.getDays())).getMonths()); // 1? Não funcionou
+        /*
+        * É possível obter os meses usando ChronoUnit
+        * */
+        System.out.println(now.until(now.plusDays(p3.getDays()), ChronoUnit.MONTHS));
     }
 }
