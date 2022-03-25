@@ -15,15 +15,15 @@ public class DurationTest01 {
          * a segundos e nanossegundos (ex.: LocalDate), Duration não pode ser usada. Uma classe
          * equivalente a Duration é a Period, que trabalha com datas (date-based)
          * */
-        final LocalDateTime now = LocalDateTime.now();
-        final LocalDateTime nowAfterTwoYears = LocalDateTime.now().plusYears(2);
-        final LocalTime timeNow = LocalTime.now();
-        final LocalTime timeMinus7Hours = LocalTime.now().minusHours(7);
-        final Duration d1 = Duration.between(now, nowAfterTwoYears);
-        final Duration d2 = Duration.between(timeNow, timeMinus7Hours);
-        final Duration d3 = Duration.between(Instant.now(), Instant.now().plusSeconds(1000));
-        final Duration d4 = Duration.ofDays(20);
-        final Duration d5 = Duration.ofMinutes(120);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime nowAfterTwoYears = LocalDateTime.now().plusYears(2);
+        LocalTime timeNow = LocalTime.now();
+        LocalTime timeMinus7Hours = LocalTime.now().minusHours(7);
+        Duration d1 = Duration.between(now, nowAfterTwoYears);
+        Duration d2 = Duration.between(timeNow, timeMinus7Hours);
+        Duration d3 = Duration.between(Instant.now(), Instant.now().plusSeconds(1000));
+        Duration d4 = Duration.ofDays(20);
+        Duration d5 = Duration.ofMinutes(120);
         /*
         * P -> P é o designador de duração (referido como "período") e é sempre colocado no início da duração.
         * T -> T é o designador de tempo e é sempre colocado no ínicio da representação da hora do dia
