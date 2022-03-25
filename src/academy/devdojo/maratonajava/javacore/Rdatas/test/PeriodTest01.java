@@ -10,19 +10,19 @@ public class PeriodTest01 {
         * Period é uma classe para trabalhar com datas (date-based)
         * Ela aceita somente LocalDate
         * */
-        final LocalDate now = LocalDate.now();
-        final LocalDate nowAfterTwoYears = LocalDate.now().plusYears(2).plusDays(7);
+        LocalDate now = LocalDate.now();
+        LocalDate nowAfterTwoYears = LocalDate.now().plusYears(2).plusDays(7);
         // Periodo entre agora para daqui a dois anos
         // Y -> Years e D -> Days
-        final Period p1 = Period.between(now, nowAfterTwoYears);
+        Period p1 = Period.between(now, nowAfterTwoYears);
         // Periodo de 10 dias (Retorna a mesma quantidade passada como argumento, já que trabalha com dias
-        final Period p2 = Period.ofDays(10);
+        Period p2 = Period.ofDays(10);
         // Periodo de 58 semanas (Retorna em dias, já que não trabalha com semanas)
-        final Period p3 = Period.ofWeeks(58);
+        Period p3 = Period.ofWeeks(58);
         // Periodo de 3 meses (Retorna a mesma quantidade passada como argumento, já que também trabalha com meses
-        final Period p4 = Period.ofMonths(3);
+        Period p4 = Period.ofMonths(3);
         // Periodo de 5 anos (Retorna a mesma quantidade passada como argumento, já que também trabalha com anos
-        final Period p5 = Period.ofYears(5);
+        Period p5 = Period.ofYears(5);
         System.out.println(p1); // P2Y7D
         System.out.println(p2); // P10D
         System.out.println(p3); // P406D
