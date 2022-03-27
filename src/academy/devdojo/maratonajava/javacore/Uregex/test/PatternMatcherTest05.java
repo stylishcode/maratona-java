@@ -26,6 +26,8 @@ public class PatternMatcherTest05 {
          * | = a ou b -> Ex.: o(v|c)o = ovo ou oco
          * $ = fim da linha
          * . = coringa -> Ex.: 1.3 = 113, 123, 133, 1#3, 1@3 ..etc
+         * ^ = Início da linha
+         * [^abc] = Tudo as ocorrências que não são abc
          *
          * Exercicio: Encontrar todos os emails validos
          * */
