@@ -1,5 +1,6 @@
 package academy.devdojo.maratonajava.javacore.Xserializacao.test;
 
+import academy.devdojo.maratonajava.javacore.Xserializacao.domain.Classroom;
 import academy.devdojo.maratonajava.javacore.Xserializacao.domain.Student;
 
 import java.io.IOException;
@@ -14,8 +15,28 @@ import java.nio.file.Path;
 * */
 public class SerializationTest01 {
     public static void main(String[] args) {
-        Student student = new Student(1L, "William Suane", "123412121");
-//        serialize(student);
+        /*
+        * Student é serializável mas Classroom não, porém Student tem uma Classroom e a execução do código
+        * lançará NotSerializableException. Para resolver, é necessário passar a instrução para o Java de como
+        * serializar/desserializar Classroom (claro que seria possível fazer Classroom implementar Serializable,
+        * mas imagine o caso onde você use API's e não tem como acessar o código fonte para fazer a mudança).
+        *
+        * Primeiro, adicionar transient no atributo Classroom em Student ignorar Classroom na serialização
+        *
+        * Segundo, adicionar os métodos writeObject e readObject em Student (deve seguir essa nomenclatura
+        * e não confundir com a possível sobrescrita writeObject e readObject das Streams. Anote os métodos
+        * com @Serial do java.io se sua versão da JDK for 14
+        *
+        * Terceiro, dentro de writeObject, salvar o padrão com oos.defaultWriteObject(), depois salva tudo
+        * o que não faz parte do defaultWriteObject(), no caso a Classroom com o writeUTF(classroom.getName())
+        * writeUTF porque vai salvar uma String que pode ser unicode, mas tem para outros tipos também e se
+        * tivesse mais tipos a salvar, salvaria de um por um com o write correspondente
+        *
+        * Quarto, fazer o mesmo para leitura, mudando a lógica para leitura
+        * */
+        Classroom classroom = new Classroom("Maratona Java");
+        Student student = new Student(1L, "William Suane", "123412121", classroom);
+        serialize(student);
         unserialize();
     }
 
