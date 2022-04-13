@@ -69,4 +69,12 @@ public class Smartphone {
     public String getBrand() {
         return brand;
     }
+
+    @Override
+    public String toString() {
+        return "Smartphone{" +
+                "serialNumber='" + serialNumber + '\'' +
+                ", brand='" + brand + '\'' +
+                '}';
+    }
 }
