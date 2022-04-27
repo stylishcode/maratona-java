@@ -23,20 +23,6 @@ public class Manga implements Comparable<Manga> {
     }
 
     // Equals e hashscode necessários para o exemplo de sort de objetos
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Manga manga = (Manga) o;
-        return Double.compare(manga.price, price) == 0 && id.equals(manga.id) && name.equals(manga.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, price);
-    }
 
     @Override
     public String toString() {
@@ -46,6 +32,21 @@ public class Manga implements Comparable<Manga> {
                 ", price=" + price +
                 ", amount=" + amount +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Manga manga = (Manga) obj;
+        return Objects.equals(id, manga.id) && Objects.equals(name, manga.name);
     }
 
     public Long getId() {
