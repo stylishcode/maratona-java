@@ -4,7 +4,7 @@ package academy.devdojo.maratonajava.javacore.ZZAclassesinternas.test;
 public class OuterClassesTest01 {
     // classe interna consegue acessar sem problemas os atributos da classe mais externa
     private String name = "Monkey D. Luffy";
-    // classe interna
+    // classe interna (permite ter atributos, métodos, construtores, como uma classe normal)
     class Inner {
        public void printOuterClassAttribute() {
            System.out.println(name);
