@@ -1,4 +1,4 @@
-package academy.devdojo.maratonajava.javacore.ZZFthreads;
+package academy.devdojo.maratonajava.javacore.ZZFthreads.test;
 
 import java.util.ArrayList;
 import java.util.Collections;

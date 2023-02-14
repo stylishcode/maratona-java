@@ -1,8 +1,6 @@
-package academy.devdojo.maratonajava.javacore.ZZFthreads;
+package academy.devdojo.maratonajava.javacore.ZZFthreads.test;
 
 import academy.devdojo.maratonajava.javacore.ZZFthreads.domain.Account;
-
-import java.util.function.Supplier;
 
 public class ThreadAccountTest01 implements Runnable {
     private final Account account = new Account();

@@ -1,4 +1,4 @@
-package academy.devdojo.maratonajava.javacore.ZZFthreads;
+package academy.devdojo.maratonajava.javacore.ZZFthreads.test;
 
 /*
 * Essa não é uma forma muito indicada de criar threads, pois quando trabalhamos com herança estamos falando que estamos

@@ -1,4 +1,4 @@
-package academy.devdojo.maratonajava.javacore.ZZFthreads;
+package academy.devdojo.maratonajava.javacore.ZZFthreads.test;
 
 public class DeadLockTest01 {
     public static void main(String[] args) {
