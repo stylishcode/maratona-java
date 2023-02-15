@@ -50,6 +50,7 @@ public class Members {
         this.open = false;
         synchronized (this.emails) {
             System.out.println(Thread.currentThread().getName() + "Notificando todo mundo que não estamos mais pegando emails");
+            this.emails.notifyAll();
         }
     }
 
