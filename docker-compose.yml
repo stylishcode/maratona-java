@@ -1,0 +1,20 @@
+version: "3.1"
+
+services:
+  db:
+    image: postgres
+    container_name: postgresql
+    restart: always
+    environment:
+      # To connect to the PostgreSQL database run the following command
+      # psql -h localhost -p <your-port> -U <your-user> -d <your-db>
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: anime_store
+    ports:
+      - 5432:5432
+    volumes:
+      - devdojo_maratona_data:/var/lib/postgresql
+
+volumes:
+  devdojo_maratona_data:
