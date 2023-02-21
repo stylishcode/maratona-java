@@ -50,7 +50,12 @@ public class ProducerRepository {
     // Geralmente não temos um método que trás todos os usuários em produção
     public static List<Producer> findAll() {
         log.info("Finding all Producers");
-        String sql = "SELECT id, name FROM producer";
+        return findByName("");
+    }
+
+    public static List<Producer> findByName(String name) {
+        log.info("Finding producer by name");
+        String sql = String.format("SELECT * FROM producer WHERE (name = '%s')", name);
         List<Producer> producers = new ArrayList<>();
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
              Statement stmt = conn.createStatement();
