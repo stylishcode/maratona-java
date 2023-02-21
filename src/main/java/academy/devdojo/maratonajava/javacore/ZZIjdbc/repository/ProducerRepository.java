@@ -5,6 +5,7 @@ import academy.devdojo.maratonajava.javacore.ZZIjdbc.domain.Producer;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class ProducerRepository {
 
 
     public static void delete(Long id) {
-        String sql = String.format("DElETE FROM producer WHERE (id = '%d')", id);
+        String sql = String.format("DELETE FROM producer WHERE (id = '%d')", id);
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
              Statement stmt = conn.createStatement()) {
             int rowsAffected = stmt.executeUpdate(sql);
@@ -77,7 +78,7 @@ public class ProducerRepository {
 
     // Este método provê metadados sobre uma tabela no banco. Isso pode ser útil em casos onde você não acesso ao nome
     // das colunas e você quer saber via Java quais são
-    public static void showProducerMetadata() {
+    public static void showProducerMetaData() {
         log.info("Showing Producer metadata");
         String sql = "SELECT * FROM producer";
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
@@ -91,6 +92,38 @@ public class ProducerRepository {
                log.info("Column name '{}'", rsMetaData.getColumnName(i));
                log.info("Column size '{}'", rsMetaData.getColumnDisplaySize(i));
                log.info("Column type '{}'", rsMetaData.getColumnTypeName(i));
+            }
+        } catch (SQLException e) {
+            log.info("Error while trying to retrieve all Producers", e);
+        }
+    }
+
+    // Este método provê informações sobre o driver de conexão que está sendo usado como suporte a FORWARD_ONLY, etc...
+    public static void showDriverMetaData() {
+        log.info("Showing Driver metadata");
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+            DatabaseMetaData dbMetaData = conn.getMetaData();
+            if(dbMetaData.supportsResultSetType(ResultSet.TYPE_FORWARD_ONLY)) {
+                log.info("Supports TYPE_FORWARD_ONLY: cursor may move only forward ");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("And Supports CONCUR_UPDATABLE: may change the data while navigating the ResultSet");
+                }
+            }
+
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_INSENSITIVE)) {
+                log.info("Supports TYPE_SCROLL_INSENSITIVE: scrollable, data changes do not occur on the fly");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("And Supports CONCUR_UPDATABLE: may change the data while navigating the ResultSet");
+                }
+            }
+
+            // Poucos drivers implementam esse tipo: Ele permite ver as alterações sem ter que realizar uma nova busca
+            // Pois elas acontecem em tempo real, diferente do tipo insensitivo
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_SENSITIVE)) {
+                log.info("Supports TYPE_SCROLL_INSENSITIVE: scrollable, data changes occur on the fly");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("And Supports CONCUR_UPDATABLE: may change the data while navigating the ResultSet");
+                }
             }
         } catch (SQLException e) {
             log.info("Error while trying to retrieve all Producers", e);
