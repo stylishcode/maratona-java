@@ -5,8 +5,11 @@ import academy.devdojo.maratonajava.javacore.ZZIjdbc.domain.Producer;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 @Log4j2
 public class ProducerRepository {
@@ -40,7 +43,29 @@ public class ProducerRepository {
             int rowsAffected = stmt.executeUpdate(sql);
             log.info("Updated producer '{}', rows affected '{}'", producer.getId(), rowsAffected);
         } catch (SQLException e) {
-            log.info("Error while trying to delte producer '{}'", producer.getId(), e);
+            log.info("Error while trying to update producer '{}'", producer.getId(), e);
         }
+    }
+
+    // Geralmente não temos um método que trás todos os usuários em produção
+    public static List<Producer> findAll() {
+        log.info("Finding all Producers");
+        String sql = "SELECT id, name FROM producer";
+        List<Producer> producers = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                Producer producer = Producer
+                        .builder()
+                        .id(rs.getLong("id"))
+                        .name(rs.getString("name"))
+                        .build();
+                producers.add(producer);
+            }
+        } catch (SQLException e) {
+            log.info("Error while trying to retrieve all Producers", e);
+        }
+        return producers;
     }
 }
