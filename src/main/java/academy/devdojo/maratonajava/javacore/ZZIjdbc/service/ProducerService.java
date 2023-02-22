@@ -6,6 +6,7 @@ import academy.devdojo.maratonajava.javacore.ZZIjdbc.repository.ProducerReposito
 import java.util.List;
 
 public class ProducerService {
+
     public static void save(Producer producer) {
         ProducerRepository.save(producer);
     }
@@ -34,6 +35,10 @@ public class ProducerService {
 
     public static void showDriverMetaData() {
         ProducerRepository.showDriverMetaData();
+    }
+
+    public static void showTypeScrollWorking() {
+        ProducerRepository.showTypeScrollWorking();
     }
 
     private static void requireValidId(Long id) {

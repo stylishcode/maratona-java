@@ -88,10 +88,10 @@ public class ProducerRepository {
             int columnCount = rsMetaData.getColumnCount();
             log.info("Columns count '{}'", columnCount);
             for (int i = 1; i <= columnCount; i++) {
-               log.info("Table name '{}'", rsMetaData.getTableName(i));
-               log.info("Column name '{}'", rsMetaData.getColumnName(i));
-               log.info("Column size '{}'", rsMetaData.getColumnDisplaySize(i));
-               log.info("Column type '{}'", rsMetaData.getColumnTypeName(i));
+                log.info("Table name '{}'", rsMetaData.getTableName(i));
+                log.info("Column name '{}'", rsMetaData.getColumnName(i));
+                log.info("Column size '{}'", rsMetaData.getColumnDisplaySize(i));
+                log.info("Column type '{}'", rsMetaData.getColumnTypeName(i));
             }
         } catch (SQLException e) {
             log.info("Error while trying to retrieve all Producers", e);
@@ -103,7 +103,7 @@ public class ProducerRepository {
         log.info("Showing Driver metadata");
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
             DatabaseMetaData dbMetaData = conn.getMetaData();
-            if(dbMetaData.supportsResultSetType(ResultSet.TYPE_FORWARD_ONLY)) {
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_FORWARD_ONLY)) {
                 log.info("Supports TYPE_FORWARD_ONLY: cursor may move only forward ");
                 if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
                     log.info("And Supports CONCUR_UPDATABLE: may change the data while navigating the ResultSet");
@@ -129,4 +129,47 @@ public class ProducerRepository {
             log.info("Error while trying to retrieve all Producers", e);
         }
     }
+
+    public static void showTypeScrollWorking() {
+        String sql = "SELECT * FROM anime_store.public.producer";
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            log.info("Last row? '{}'", rs.last());
+            log.info("Row number? '{}'", rs.getRow());
+            log.info(Producer.builder().id(rs.getLong("id")).name(rs.getString("name")).build());
+
+            log.info("First row? '{}'", rs.first());
+            log.info("Row number? '{}'", rs.getRow());
+            log.info(Producer.builder().id(rs.getLong("id")).name(rs.getString("name")).build());
+
+            log.info("Row Absolute? '{}'", rs.absolute(2));
+            log.info("Row number? '{}'", rs.getRow());
+            log.info(Producer.builder().id(rs.getLong("id")).name(rs.getString("name")).build());
+
+            log.info("Row Relative? '{}'", rs.relative(-1)); // move o cursor uma linha para trás
+            log.info("Row number? '{}'", rs.getRow());
+            log.info(Producer.builder().id(rs.getLong("id")).name(rs.getString("name")).build());
+
+            log.info("is first? '{}'", rs.isFirst());
+            log.info("Row number? '{}'", rs.getRow());
+
+            log.info("is last? '{}'", rs.isLast());
+            log.info("Row number? '{}'", rs.getRow());
+
+            log.info("Last row? '{}'", rs.last());
+            log.info("-----------------------");
+            // do último para o primeiro (ignora o último se não posicionar o cursor após rs.last())
+            rs.next();
+            log.info("After last row? '{}'", rs.isAfterLast());
+            while (rs.previous()) {
+                log.info(Producer.builder().id(rs.getLong("id")).name(rs.getString("name")).build());
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

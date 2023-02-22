@@ -9,7 +9,7 @@ import java.sql.SQLException;
 @Log4j2
 public class ConnectionFactoryTest01 {
     public static void main(String[] args) throws SQLException {
-        Producer producer = Producer.builder().name("MAPPA").build();
+        Producer producer = Producer.builder().name("NHK").build();
         Producer producerToUpdate = Producer.builder().id(3L).name("MADHOUSE").build();
 //        ProducerService.save(producer);
 //        ProducerService.delete(5L);
@@ -19,7 +19,8 @@ public class ConnectionFactoryTest01 {
 //        List<Producer> producers = ProducerService.findByName("MAPPA");
 //        log.info("Producers found '{}'", producers);
 //        ProducerService.showProducerMetaData();
-        ProducerService.showDriverMetaData();
+//        ProducerService.showDriverMetaData();
+        ProducerService.showTypeScrollWorking();
     }
 }
 

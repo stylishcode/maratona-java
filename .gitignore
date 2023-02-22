@@ -9,3 +9,7 @@ renamed_folder/
 file_renamed.txt
 folder*/*
 .vscode/*
+/.settings/
+/.classpath
+/.factorypath
+/.project
