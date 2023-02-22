@@ -57,7 +57,7 @@ public class ProducerRepository {
 
     public static List<Producer> findByName(String name) {
         log.info("Finding producer by name");
-        String sql = String.format("SELECT * FROM producer WHERE (name = '%s')", name);
+        String sql = String.format("SELECT * FROM producer WHERE name LIKE '%%%s%%'", name);
         List<Producer> producers = new ArrayList<>();
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
              Statement stmt = conn.createStatement();
@@ -169,6 +169,29 @@ public class ProducerRepository {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static List<Producer> findByNameAndUpdateToUpperCase(String name) {
+        log.info("Finding Producer by name and updating to UpperCase");
+        String sql = String.format("SELECT * FROM producer WHERE name LIKE '%%%s%%'", name);
+        List<Producer> producers = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                rs.updateString("name", rs.getString("name").toUpperCase());
+                rs.updateRow();
+                Producer producer = Producer
+                        .builder()
+                        .id(rs.getLong("id"))
+                        .name(rs.getString("name"))
+                        .build();
+                producers.add(producer);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return producers;
     }
 
 
