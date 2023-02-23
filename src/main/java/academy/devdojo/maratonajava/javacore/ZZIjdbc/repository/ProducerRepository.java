@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -236,5 +237,30 @@ public class ProducerRepository {
         }
     }
 
+    public static List<Producer> findByNamePreparedStatement(String name) {
+        log.info("Finding producer by name prepared statement");
+        String sql = "SELECT * FROM anime_store.public.producer WHERE name like ?";
+        List<Producer> producers = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement ps = createPreparedStatement(conn, sql, name);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Producer producer = Producer
+                        .builder()
+                        .id(rs.getLong("id"))
+                        .name(rs.getString("name"))
+                        .build();
+                producers.add(producer);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return producers;
+    }
 
+    private static PreparedStatement createPreparedStatement(Connection conn, String sql, String name) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, name);
+        return ps;
+    }
 }
