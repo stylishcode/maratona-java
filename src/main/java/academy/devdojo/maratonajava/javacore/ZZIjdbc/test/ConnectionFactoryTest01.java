@@ -5,7 +5,6 @@ import academy.devdojo.maratonajava.javacore.ZZIjdbc.service.ProducerService;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.SQLException;
-import java.util.List;
 
 @Log4j2
 public class ConnectionFactoryTest01 {
@@ -29,7 +28,9 @@ public class ConnectionFactoryTest01 {
 
         // sql injection com statement, retorna todos os usuários, com preparedStatement não retorna nada
 //        List<Producer> producers = ProducerService.findByNamePreparedStatement("B or X'='X");
-        List<Producer> producers = ProducerService.findByNamePreparedStatement("Bones");
-        log.info("Producers found '{}'", producers);
+//        List<Producer> producers = ProducerService.findByNamePreparedStatement("Bo");
+//        log.info("Producers found '{}'", producers);
+        Producer producerToUpdate = Producer.builder().id(1L).name("MadHouse").build();
+        ProducerService.updatePreparedStatement(producerToUpdate);
     }
 }

@@ -27,7 +27,6 @@ public class ProducerRepository {
         }
     }
 
-
     public static void delete(Long id) {
         String sql = String.format("DELETE FROM producer WHERE (id = '%d')", id);
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
@@ -48,6 +47,24 @@ public class ProducerRepository {
         } catch (SQLException e) {
             log.info("Error while trying to update producer '{}'", producer.getId(), e);
         }
+    }
+
+    public static void updatePreparedStatement(Producer producer) {
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             PreparedStatement ps = preparedStatementUpdate(conn, producer)) {
+            int rowsAffected = ps.executeUpdate();
+            log.info("Updated producer '{}', rows affected '{}'", producer.getId(), rowsAffected);
+        } catch (SQLException e) {
+            log.info("Error while trying to update producer '{}'", producer.getId(), e);
+        }
+    }
+
+    private static PreparedStatement preparedStatementUpdate(Connection conn, Producer producer) throws SQLException {
+        String sql = "UPDATE producer SET name = ? WHERE (id = ?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, producer.getName());
+        ps.setLong(2, producer.getId());
+        return ps;
     }
 
     // Geralmente não temos um método que trás todos os usuários em produção
@@ -239,10 +256,9 @@ public class ProducerRepository {
 
     public static List<Producer> findByNamePreparedStatement(String name) {
         log.info("Finding producer by name prepared statement");
-        String sql = "SELECT * FROM anime_store.public.producer WHERE name like ?";
         List<Producer> producers = new ArrayList<>();
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
-             PreparedStatement ps = createPreparedStatement(conn, sql, name);
+             PreparedStatement ps = preparedStatementByName(conn, name);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Producer producer = Producer
@@ -258,9 +274,10 @@ public class ProducerRepository {
         return producers;
     }
 
-    private static PreparedStatement createPreparedStatement(Connection conn, String sql, String name) throws SQLException {
+    private static PreparedStatement preparedStatementByName(Connection conn, String name) throws SQLException {
+        String sql = "SELECT * FROM anime_store.public.producer WHERE name like ?";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, name);
+        ps.setString(1, String.format("%%%s%%", name));
         return ps;
     }
 }
