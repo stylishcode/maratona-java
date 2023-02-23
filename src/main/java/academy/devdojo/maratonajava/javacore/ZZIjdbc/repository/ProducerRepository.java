@@ -194,5 +194,47 @@ public class ProducerRepository {
         return producers;
     }
 
+    public static List<Producer> findByNameAndInsertWhenNotFound(String name) {
+        log.info("Finding Producer by name and insert if not found");
+        String sql = String.format("SELECT * FROM anime_store.public.producer WHERE name LIKE '%%%s%%'", name);
+        List<Producer> producers = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (!rs.next()) return producers;
+            rs.moveToInsertRow();
+            rs.updateString("name", name);
+            rs.insertRow();
+            // Move o cursor para o ínicio do ResultSet (antes da primeira linha) para retornar a lista já com o nome inserido
+            rs.beforeFirst();
+            rs.next();
+            Producer producer = Producer
+                    .builder()
+                    .id(rs.getLong("id"))
+                    .name(rs.getString("name"))
+                    .build();
+            producers.add(producer);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return producers;
+    }
+
+    public static void findByNameAndDelete(String name) {
+        log.info("Finding Producer by name and delete");
+        String sql = String.format("SELECT * FROM anime_store.public.producer WHERE name LIKE '%%%s%%'", name);
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                log.info("Deleting '{}'", rs.getString("name"));
+                // não precisa persistir, ele já exclui direto
+                rs.deleteRow();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

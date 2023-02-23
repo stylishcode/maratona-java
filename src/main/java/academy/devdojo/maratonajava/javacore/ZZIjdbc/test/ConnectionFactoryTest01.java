@@ -10,8 +10,8 @@ import java.util.List;
 @Log4j2
 public class ConnectionFactoryTest01 {
     public static void main(String[] args) throws SQLException {
-        Producer producer = Producer.builder().name("NHK").build();
-        Producer producerToUpdate = Producer.builder().id(3L).name("MADHOUSE").build();
+//        Producer producer = Producer.builder().name("Bones").build();
+//        Producer producerToUpdate = Producer.builder().id(3L).name("MADHOUSE").build();
 //        ProducerService.save(producer);
 //        ProducerService.delete(5L);
 //        ProducerService.update(producerToUpdate);
@@ -22,7 +22,9 @@ public class ConnectionFactoryTest01 {
 //        ProducerService.showProducerMetaData();
 //        ProducerService.showDriverMetaData();
 //        ProducerService.showTypeScrollWorking();
-        List<Producer> producers = ProducerService.findByNameAndUpdateToUpperCase("Deen");
-        log.info("Producers found '{}'", producers);
+//        List<Producer> producers = ProducerService.findByNameAndUpdateToUpperCase("Deen");
+//        List<Producer> producers = ProducerService.findByNameAndInsertWhenNotFound("A-1 pictures");
+//        log.info("Producers found '{}'", producers);
+        ProducerService.findByNameAndDelete("A-1 pictures");
     }
 }
