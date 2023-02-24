@@ -4,6 +4,7 @@ import academy.devdojo.maratonajava.javacore.ZZIjdbc.conn.ConnectionFactory;
 import academy.devdojo.maratonajava.javacore.ZZIjdbc.domain.Producer;
 import lombok.extern.log4j.Log4j2;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -233,7 +234,7 @@ public class ProducerRepository {
                     .build();
             producers.add(producer);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.info("Error while trying to insert a new Producer", e);
         }
         return producers;
     }
@@ -250,8 +251,35 @@ public class ProducerRepository {
                 rs.deleteRow();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            log.info("Error while trying to delete a Producer", e);
         }
+    }
+
+    public static List<Producer> findByNameCallableStatement(String name) {
+        log.info("Calling a store procedure to find a name");
+        List<Producer> producers = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getInstance().getConnection();
+             CallableStatement cs = callableStatementFindByName(conn, name);
+             ResultSet rs = cs.executeQuery()) {
+            while (rs.next()) {
+                Producer producer = Producer
+                        .builder()
+                        .id(rs.getLong("id"))
+                        .name(rs.getString("name"))
+                        .build();
+                producers.add(producer);
+            }
+        } catch (SQLException e) {
+            log.info("Error while trying to call the store procedure", e);
+        }
+        return producers;
+    }
+
+    private static CallableStatement callableStatementFindByName(Connection conn, String name) throws SQLException {
+        String sql = "SELECT * FROM anime_store.public.sp_get_producer_by_name(?)";
+        CallableStatement cs = conn.prepareCall(sql);
+        cs.setString(1, String.format("%%%s%%", name));
+        return cs;
     }
 
     public static List<Producer> findByNamePreparedStatement(String name) {
