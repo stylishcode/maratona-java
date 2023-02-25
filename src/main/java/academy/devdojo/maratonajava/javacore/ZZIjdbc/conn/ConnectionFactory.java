@@ -1,5 +1,6 @@
 package academy.devdojo.maratonajava.javacore.ZZIjdbc.conn;
 
+import javax.sql.rowset.CachedRowSet;
 import javax.sql.rowset.JdbcRowSet;
 import javax.sql.rowset.RowSetProvider;
 import java.sql.Connection;
@@ -11,12 +12,14 @@ public class ConnectionFactory {
 
     private Connection connection;
     private JdbcRowSet jdbcRowSet;
+    private CachedRowSet cachedRowSet;
 
     private final String URL = "jdbc:postgresql://localhost:5432/anime_store";
     private final String USERNAME = "admin";
     private final String PASSWORD = "root";
 
-    private ConnectionFactory() {}
+    private ConnectionFactory() {
+    }
 
     public static ConnectionFactory getInstance() {
         if (instance == null) {
@@ -33,12 +36,16 @@ public class ConnectionFactory {
     }
 
     public JdbcRowSet getJdbcRowSet() throws SQLException {
-       if (jdbcRowSet == null) {
-           jdbcRowSet = RowSetProvider.newFactory().createJdbcRowSet();
-           jdbcRowSet.setUrl(URL);
-           jdbcRowSet.setUsername(USERNAME);
-           jdbcRowSet.setPassword(PASSWORD);
-       }
-       return jdbcRowSet;
+        if (jdbcRowSet == null) {
+            jdbcRowSet = RowSetProvider.newFactory().createJdbcRowSet();
+            jdbcRowSet.setUrl(URL);
+            jdbcRowSet.setUsername(USERNAME);
+            jdbcRowSet.setPassword(PASSWORD);
+        }
+        return jdbcRowSet;
+    }
+
+    public CachedRowSet getCachedRowSet() throws SQLException {
+        return RowSetProvider.newFactory().createCachedRowSet();
     }
 }
