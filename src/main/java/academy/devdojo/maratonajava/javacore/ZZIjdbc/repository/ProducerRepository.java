@@ -50,6 +50,45 @@ public class ProducerRepository {
         }
     }
 
+    public static void saveTransaction(List<Producer> producers) {
+        try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
+            // não queremos que o banco tome conta de salvar os dados
+            conn.setAutoCommit(false);
+            preparedStatementSaveTransaction(conn, producers);
+            // agora NÓS dizemos quando queremos salvar
+            conn.commit();
+            // caso estivessemos trabalhando com um método maior (uma conexão por método (lembre que é singleton))
+            // precisamos voltar com o commit para true
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            log.info("Error while trying to saving producers '{}'", producers, e);
+        }
+    }
+
+    private static void preparedStatementSaveTransaction(Connection conn, List<Producer> producers)
+            throws SQLException {
+        String sql = "INSERT INTO anime_store.public.producer (name) VALUES (?);";
+        boolean shouldRollback = false;
+        for (Producer p : producers) {
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+               log.info("Saving producer '{}'", p.getName());
+               ps.setString(1, p.getName());
+               // apenas uma simulação de erro
+//               if (p.getName().equals("White fox")) throw new SQLException("Can't save white fox");
+               ps.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                shouldRollback = true;
+            }
+        }
+        if (shouldRollback) {
+            // Faz com que os dados que passaram com sucesso (não eram o White fox), também não sejam commitados
+            // A transação toda é cancelada, fazendo com que a aplicação volte ao estado anterior
+            log.warn("Transaction is going to bem rollback");
+            conn.rollback();
+        }
+    }
+
     public static void updatePreparedStatement(Producer producer) {
         try (Connection conn = ConnectionFactory.getInstance().getConnection();
              PreparedStatement ps = preparedStatementUpdate(conn, producer)) {

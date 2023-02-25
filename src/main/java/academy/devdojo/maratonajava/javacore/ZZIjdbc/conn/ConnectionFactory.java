@@ -12,7 +12,6 @@ public class ConnectionFactory {
 
     private Connection connection;
     private JdbcRowSet jdbcRowSet;
-    private CachedRowSet cachedRowSet;
 
     private final String URL = "jdbc:postgresql://localhost:5432/anime_store";
     private final String USERNAME = "admin";
