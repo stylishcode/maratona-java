@@ -38,6 +38,23 @@ public final class ProducerRepository {
         ps.setString(1, String.format("%%%s%%", name));
         return ps;
     }
+
+    public static void delete(Long id) {
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = deletePreparedStatement(conn, id)) {
+            int rowsAffected = ps.executeUpdate();
+            log.info(MessageLog.ON_DELETE.MESSAGE, id, rowsAffected);
+        } catch (SQLException e) {
+            log.info(MessageLog.ERR_ON_DELETE.MESSAGE, id, e);
+        }
+    }
+
+    private static PreparedStatement deletePreparedStatement(Connection conn, Long id) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement(Query.DELETE.SQL);
+        ps.setLong(1, id);
+        return ps;
+    }
+
 }
 
 enum Query {
