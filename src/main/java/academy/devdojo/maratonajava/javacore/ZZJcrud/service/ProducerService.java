@@ -4,7 +4,6 @@ package academy.devdojo.maratonajava.javacore.ZZJcrud.service;
 import academy.devdojo.maratonajava.javacore.ZZIjdbc.domain.Producer;
 import academy.devdojo.maratonajava.javacore.ZZJcrud.repository.ProducerRepository;
 
-import java.util.List;
 import java.util.Scanner;
 
 public final class ProducerService {
@@ -14,6 +13,7 @@ public final class ProducerService {
         switch (op) {
             case 1 -> findByName();
             case 2 -> delete();
+            case 3 -> save();
             default -> throw new IllegalArgumentException("Not a valid operation");
         }
     }
@@ -21,11 +21,8 @@ public final class ProducerService {
     private static void findByName() {
         System.out.print("Type the name or empty to all: ");
         String name = SCANNER.nextLine();
-        List<Producer> producers = ProducerRepository.findByName(name);
-        for (int i = 0; i < producers.size(); i++) {
-            Producer producer = producers.get(i);
-            System.out.printf("[%d] - %d | %s%n", i, producer.getId(), producer.getName());
-        }
+        ProducerRepository.findByName(name)
+                .forEach(p -> System.out.printf("%d - %s%n", p.getId(), p.getName()));
     }
 
     private static void delete() {
@@ -35,9 +32,16 @@ public final class ProducerService {
         if (id <= 0) throw new IllegalArgumentException("Invalid id");
         System.out.print("Are you sure? Y/N: ");
         String choice = SCANNER.nextLine();
-        if ("s".equalsIgnoreCase(choice)) {
+        if ("y".equalsIgnoreCase(choice)) {
             ProducerRepository.delete(id);
         }
     }
 
+    public static void save() {
+        System.out.print("Type the name of the producer: ");
+        String name = SCANNER.nextLine().trim();
+        if (name.isBlank()) throw new IllegalArgumentException("Invalid name");
+        Producer producer = Producer.builder().name(name).build();
+        ProducerRepository.save(producer);
+    }
 }
