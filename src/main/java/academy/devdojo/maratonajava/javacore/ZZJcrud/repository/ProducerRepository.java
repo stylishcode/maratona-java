@@ -10,13 +10,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 public final class ProducerRepository {
     public static List<Producer> findByName(String name) {
         List<Producer> producers = new ArrayList<>();
         try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement ps = createFindPreparedStatement(conn, name);
+             PreparedStatement ps = createFindByNamePreparedStatement(conn, name);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Producer producer = Producer
@@ -32,11 +33,52 @@ public final class ProducerRepository {
         return producers;
     }
 
-    private static PreparedStatement createFindPreparedStatement(Connection conn, String name) throws SQLException {
+    private static PreparedStatement createFindByNamePreparedStatement(Connection conn, String name) throws SQLException {
         PreparedStatement ps = conn.prepareStatement(Query.FIND_BY_NAME.SQL);
         ps.setString(1, String.format("%%%s%%", name));
         return ps;
     }
+
+    public static Optional<Producer> findById(Long id) {
+        Optional<Producer> producer = Optional.empty();
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = createFindByIdPreparedStatement(conn, id);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                producer = Optional.of(Producer
+                        .builder()
+                        .id(rs.getLong("id"))
+                        .name(rs.getString("name"))
+                        .build());
+            }
+        } catch (SQLException e) {
+            log.info(ErrorMessage.ON_FIND.MESSAGE, e);
+        }
+        return producer;
+    }
+
+    private static PreparedStatement createFindByIdPreparedStatement(Connection conn, Long id) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement(Query.FIND_BY_ID.SQL);
+        ps.setLong(1, id);
+        return ps;
+    }
+
+    public static void update(Producer producer) {
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = createUpdatePreparedStatement(conn, producer)) {
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static PreparedStatement createUpdatePreparedStatement(Connection conn, Producer producer) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement(Query.UPDATE.SQL);
+        ps.setString(1, producer.getName());
+        ps.setLong(2, producer.getId());
+        return ps;
+    }
+
 
     public static void delete(Long id) {
         try (Connection conn = ConnectionFactory.getConnection();
@@ -73,6 +115,7 @@ public final class ProducerRepository {
 enum Query {
     SAVE("INSERT INTO anime_store.public.producer (name) VALUES (?)"),
     FIND_BY_NAME("SELECT * FROM anime_store.public.producer WHERE name LIKE ?"),
+    FIND_BY_ID("SELECT * FROM anime_store.public.producer WHERE id = ?"),
     DELETE("DELETE FROM anime_store.public.producer WHERE id = ?"),
     UPDATE("UPDATE anime_store.public.producer SET name = ? WHERE id = ?");
 
