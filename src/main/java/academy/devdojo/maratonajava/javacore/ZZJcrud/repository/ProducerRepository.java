@@ -1,7 +1,7 @@
 package academy.devdojo.maratonajava.javacore.ZZJcrud.repository;
 
-import academy.devdojo.maratonajava.javacore.ZZIjdbc.domain.Producer;
 import academy.devdojo.maratonajava.javacore.ZZJcrud.conn.ConnectionFactory;
+import academy.devdojo.maratonajava.javacore.ZZJcrud.domain.Producer;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
@@ -28,13 +28,13 @@ public final class ProducerRepository {
                 producers.add(producer);
             }
         } catch (SQLException e) {
-            log.info(ErrorMessage.ON_FIND.MESSAGE, e);
+            log.info(ProducerErrorMessage.ON_FIND.MESSAGE, e);
         }
         return producers;
     }
 
     private static PreparedStatement createFindByNamePreparedStatement(Connection conn, String name) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement(Query.FIND_BY_NAME.SQL);
+        PreparedStatement ps = conn.prepareStatement(ProducerQuery.FIND_BY_NAME.SQL);
         ps.setString(1, String.format("%%%s%%", name));
         return ps;
     }
@@ -52,13 +52,13 @@ public final class ProducerRepository {
                         .build());
             }
         } catch (SQLException e) {
-            log.info(ErrorMessage.ON_FIND.MESSAGE, e);
+            log.info(ProducerErrorMessage.ON_FIND.MESSAGE, e);
         }
         return producer;
     }
 
     private static PreparedStatement createFindByIdPreparedStatement(Connection conn, Long id) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement(Query.FIND_BY_ID.SQL);
+        PreparedStatement ps = conn.prepareStatement(ProducerQuery.FIND_BY_ID.SQL);
         ps.setLong(1, id);
         return ps;
     }
@@ -73,7 +73,7 @@ public final class ProducerRepository {
     }
 
     private static PreparedStatement createUpdatePreparedStatement(Connection conn, Producer producer) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement(Query.UPDATE.SQL);
+        PreparedStatement ps = conn.prepareStatement(ProducerQuery.UPDATE.SQL);
         ps.setString(1, producer.getName());
         ps.setLong(2, producer.getId());
         return ps;
@@ -85,12 +85,12 @@ public final class ProducerRepository {
              PreparedStatement ps = deletePreparedStatement(conn, id)) {
             ps.executeUpdate();
         } catch (SQLException e) {
-            log.info(ErrorMessage.ON_DELETE.MESSAGE, id, e);
+            log.info(ProducerErrorMessage.ON_DELETE.MESSAGE, id, e);
         }
     }
 
     private static PreparedStatement deletePreparedStatement(Connection conn, Long id) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement(Query.DELETE.SQL);
+        PreparedStatement ps = conn.prepareStatement(ProducerQuery.DELETE.SQL);
         ps.setLong(1, id);
         return ps;
     }
@@ -100,19 +100,19 @@ public final class ProducerRepository {
              PreparedStatement ps = createSavePreparedStatement(conn, producer)) {
             ps.executeUpdate();
         } catch (SQLException e) {
-            log.info(ErrorMessage.ON_SAVE.MESSAGE, producer.getName(), e);
+            log.info(ProducerErrorMessage.ON_SAVE.MESSAGE, producer.getName(), e);
         }
     }
 
     private static PreparedStatement createSavePreparedStatement(Connection conn, Producer producer) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement(Query.SAVE.SQL);
+        PreparedStatement ps = conn.prepareStatement(ProducerQuery.SAVE.SQL);
         ps.setString(1, producer.getName());
         return ps;
     }
 
 }
 
-enum Query {
+enum ProducerQuery {
     SAVE("INSERT INTO anime_store.public.producer (name) VALUES (?)"),
     FIND_BY_NAME("SELECT * FROM anime_store.public.producer WHERE name LIKE ?"),
     FIND_BY_ID("SELECT * FROM anime_store.public.producer WHERE id = ?"),
@@ -121,12 +121,12 @@ enum Query {
 
     public final String SQL;
 
-    Query(String sql) {
+    ProducerQuery(String sql) {
         this.SQL = sql;
     }
 }
 
-enum ErrorMessage {
+enum ProducerErrorMessage {
     ON_SAVE("Error while trying to save producer '{}'"),
     ON_FIND("Error while trying to retrieve producers"),
     ON_UPDATE("Error while trying to update producer '{}'"),
@@ -134,7 +134,7 @@ enum ErrorMessage {
 
     public final String MESSAGE;
 
-    ErrorMessage(String message) {
+    ProducerErrorMessage(String message) {
         this.MESSAGE = message;
     }
 }
